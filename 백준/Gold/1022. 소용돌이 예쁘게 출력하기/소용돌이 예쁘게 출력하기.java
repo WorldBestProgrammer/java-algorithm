@@ -19,8 +19,6 @@ public class Main {
     int maxC = Math.max(c1, c2) + 5000;
     int minC = Math.min(c1, c2) + 5000;
 
-    // int[][] graph = new int[maxAll * 2 + 1][maxAll * 2 + 1]; 
-
     int[][] graph = new int[Math.abs(r2-r1)+1][Math.abs(c2-c1)+1];
     int[] dx = {1, 0, -1, 0};
     int[] dy = {0, -1, 0, 1};
@@ -39,9 +37,9 @@ public class Main {
           goLength += 1;
         }
         for (int k = 0; k < goLength; k++) {
+          count++;
           int nx = curX + dx[j];
           int ny = curY + dy[j];
-          count++;
           if (nx >= minC && nx <= maxC && ny >= minR && ny <= maxR) {
             graph[ny-minR][nx-minC] = count;
           }
@@ -50,33 +48,42 @@ public class Main {
         }
       }
     }
-    // goLength++;
+
     for (int k = 0; k < goLength; k++) {
+      count++;
       int nx = curX + dx[0];
       int ny = curY + dy[0];
-      count++;
       if (nx >= minC && nx <= maxC && ny >= minR && ny <= maxR) {
         graph[ny-minR][nx-minC] = count;
       }
       curX = nx;
       curY = ny;
     }
+    
 
+    int maxLen = findMaxLen(graph);
+    print(graph, maxLen);
+  }
+  
+  private static int findMaxLen(int[][] graph) {
     int maxLen = 0;
     for (int i = 0; i < graph.length; i++) {
       for (int j = 0; j < graph[0].length; j++) {
         maxLen = Math.max(maxLen, Integer.toString(graph[i][j]).length());
       }
     }
+    return maxLen;
+  }
+  private static void print(int[][] graph, int maxLen) {
     for (int i = 0; i < graph.length; i++) {
       for (int j = 0; j < graph[0].length; j++) {
         for (int k = 0; k < maxLen - Integer.toString(graph[i][j]).length(); k++){
           System.out.print(" ");
           }
         System.out.print(graph[i][j] + " ");
-        
       }
       System.out.println();
     }
   }
 }
+
