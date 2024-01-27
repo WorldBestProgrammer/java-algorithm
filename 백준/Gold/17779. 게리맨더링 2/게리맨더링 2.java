@@ -1,10 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -51,9 +51,9 @@ public class Main {
                 }
             }
         }
-        System.out.println(minGap);
-
-
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(String.valueOf(minGap));
+        bw.close();
     }
 
     private static void initializeAreaNumber(Node[][] A, int size) {
@@ -73,14 +73,12 @@ public class Main {
         }
 
         Collection<Integer> values = populationPerArea.values();
-//        System.out.println("values = " + values);
         int max = Integer.MIN_VALUE;
         int min = Integer.MAX_VALUE;
         for (Integer population : values) {
             max = Math.max(max, population);
             min = Math.min(min, population);
         }
-//        display(A);
         return max - min;
 
     }
@@ -118,15 +116,6 @@ public class Main {
             }
         }
 
-//        for (int r = 1; r <= x + d2; r++) {
-//            for (int c = y + 1; c <= size; c++) {
-//                if (area[r][c].areaNumber == 5) {
-//                    continue;
-//                }
-//                area[r][c].areaNumber = 2;
-//            }
-//        }
-
         for (int r = 1; r <= x + d2; r++) {
             for (int c = size; c >= y + 1; c--) {
                 if (area[r][c].areaNumber == 5) {
@@ -145,15 +134,6 @@ public class Main {
             }
         }
 
-//        for (int r = x + d2 + 1; r <= size; r++) {
-//            for (int c = y - d1 + d2; c <= size; c++) {
-//                if (area[r][c].areaNumber == 5) {
-//                    continue;
-//                }
-//                area[r][c].areaNumber = 4;
-//            }
-//        }
-
         for (int r = x + d2 + 1; r <= size; r++) {
             for (int c = size; c >= y - d1 + d2; c--) {
                 if (area[r][c].areaNumber == 5) {
@@ -170,67 +150,5 @@ public class Main {
                 }
             }
         }
-    }
-
-    private static int[][] makeDividedArea(int size, int x, int y, int d1, int d2) {
-        int[][] dividedArea = new int[size + 1][size + 1];
-        for (int i = 0; i <= d1; i++) {
-            dividedArea[x+i][y-i] = 5;
-        }
-        for (int i = 0; i <= d2; i++) {
-            dividedArea[x+i][y+i] = 5;
-        }
-        for (int i = 0; i <= d2; i++) {
-            dividedArea[x+d1+i][y-d1+i] = 5;
-        }
-        for (int i = 0; i <= d1; i++) {
-            dividedArea[x+d2+i][y+d2-i] = 5;
-        }
-
-        for (int r = 1; r < x + d1; r++) {
-            for (int c = 1; c <= y; c++) {
-                if (dividedArea[r][c] == 5) {
-                    break;
-                }
-                dividedArea[r][c] = 1;
-            }
-        }
-
-        for (int r = 1; r <= x + d2; r++) {
-            for (int c = y + 1; c <= size; c++) {
-                if (dividedArea[r][c] == 5) {
-                    continue;
-                }
-                dividedArea[r][c] = 2;
-            }
-        }
-
-        for (int r = x + d1; r <= size; r++) {
-            for (int c = 1; c < y - d1 + d2; c++) {
-                if (dividedArea[r][c] == 5) {
-                    break;
-                }
-                dividedArea[r][c] = 3;
-            }
-        }
-
-        for (int r = x + d2 + 1; r <= size; r++) {
-            for (int c = y - d1 + d2; c <= size; c++) {
-                if (dividedArea[r][c] == 5) {
-                    continue;
-                }
-                dividedArea[r][c] = 4;
-            }
-        }
-
-        for (int r = 1; r <= size; r++) {
-            for (int c = 1; c <= size; c++) {
-                if (dividedArea[r][c] == 0) {
-                    dividedArea[r][c] = 5;
-                }
-            }
-        }
-
-        return dividedArea;
     }
 }
