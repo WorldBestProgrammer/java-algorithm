@@ -1,155 +1,99 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-
 public class Main {
-	static int[][] map = new int[19][19];
-	static boolean[][] v_cross1 = new boolean[19][19];
-	static boolean[][] v_cross2 = new boolean[19][19];
-	static boolean[][] v_row = new boolean[19][19];
-	static boolean[][] v_col = new boolean[19][19];
-	
-	// code 0: 이기고 비긴경우 없음 / code 1: 이김 / code 2: 비김
-	static boolean checkCross1(int x, int y) {
-		v_cross1[x][y] = true;
-		int i = 0, cnt = 0;
-		while(x + i < 19 && y + i < 19) {
-			if(map[x + i][y + i] != map[x][y])
-				break;
-			cnt += 1;
-			v_cross1[x + i][y + i] = true;
-			i++;
-		}
-		
-		if(cnt == 5)
-			return true;
-		return false;
-		
-	}
-	
-	
-	static boolean checkCross2(int x, int y) {
-		v_cross2[x][y] = true;
-		int i = 0, cnt = 0;
-		while(x - i >= 0 && y + i < 19) {
-			if(map[x - i][y + i] != map[x][y])
-				break;
-			cnt += 1;
-			v_cross2[x - i][y + i] = true;
-			i++;
-		}
-		
-		if(cnt == 5)
-			return true;
-		
-		return false;
-	}
-	
-	static boolean checkRow(int x, int y) {
-		v_row[x][y] = true;
-		int i = 0, cnt = 0;
-		while(x + i < 19) {
-			if(map[x + i][y] != map[x][y])
-				break;
-			cnt += 1;
-			v_row[x + i][y] = true;
-			i++;
-		}
-		
-		if(cnt == 5)
-			return true;
-		return false;
-		
-	}
-	
-	static boolean checkCol(int x, int y) {
-		v_col[x][y] = true;
-		int i = 0, cnt = 0;
-		while(y + i < 19) {
-			if(map[x][y + i] != map[x][y])
-				break;
-			cnt += 1;
-			v_col[x][y + i] = true;
-			i++;
-		}
-		
-		if(cnt == 5)
-			return true;
-		return false;
-		
-	}
-	
-	
 
 	public static void main(String[] args) throws Exception {
+//		for (int i = 0; i < 19; i++) {
+//			for (int j = 0; j < 19; j++) {
+//				System.out.println("1");
+//			}
+//		}
+//		System.setIn(new FileInputStream("Test5.txt"));
 		//여기에 코드를 작성하세요.
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
 		StringTokenizer st;
-		int[]winner = null;
-		int ans = 0;
 		
-		for(int i = 0; i < 19; i++) {
-			st = new StringTokenizer(br.readLine());
-			for(int j = 0; j < 19; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-				
+		int[][] table = new int[19][19];
+		for (int i = 0; i < 19; i++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			for (int j = 0; j < 19; j++) {
+				int token = Integer.parseInt(st.nextToken());
+				table[i][j] = token;
 			}
 		}
-		for(int i = 0; i < 19; i++) {
-			for(int j = 0; j < 19; j++) {
-				if(map[i][j] == 0)
+		
+		int[] dx = {1, 0, -1, 1};
+		int[] dy = {1, 1, 1, 0};
+
+		out: for (int i = 0; i < 19; i++) {
+			for (int j = 0; j < 19; j++) {
+				if (table[i][j] == 0) {
 					continue;
-				if(!v_cross1[i][j]) {
-					if(checkCross1(i, j)) {
-						winner = new int[] {i + 1, j + 1};
-						ans = map[i][j];
+				}
+				for (int k = 0; k < 4; k++) {
+					if (i - dx[k] >=0 && i - dx[k] < 19 && j - dy[k] >=0 && j - dy[k] < 19 && table[i-dx[k]][j-dy[k]] == table[i][j]) {
+						continue;
+					}
+					boolean flag = check(table, i, j, dx[k], dy[k]);
+					if (flag) {
+						System.out.println(table[i][j]);
+						System.out.println((i + 1) + " " + (j + 1));
 						
-					}
-				}
-				
-				if(!v_row[i][j]) {
-					if(checkRow(i, j)) {
-						winner = new int[] {i + 1, j + 1};
-						ans = map[i][j];
-					}
-				}
-				if(!v_col[i][j]) {
-					if(checkCol(i, j)) {
-						winner = new int[] {i + 1, j + 1};
-						ans = map[i][j];
-					}
-				}
-				
-			}
-		}
-		
-		for(int i = 18; i > 0; i--) {
-			for(int j = 0; j < 19; j++) {
-				if(map[i][j] == 0)
-					continue;
-				if(!v_cross2[i][j]) {
-					if(checkCross2(i, j)) {
-						winner = new int[] {i + 1, j + 1};
-						ans = map[i][j];
+						return;
 					}
 				}
 			}
 		}
-		
-		
-		if(winner == null)
-			System.out.println(0);
-		else {
-			System.out.println(ans);
-			System.out.println(winner[0] + " " + winner[1]);
-		}
-		
-		
-		
-		
+		System.out.println(0);
 		
 	}
+	
+	private static boolean check(int[][] table, int i, int j, int dx, int dy) {
+		int value = table[i][j];
+		int count = 1;
+		int ni = i;
+		int nj = j;
+		for (int k = 0; k < 4; k++) {
+			ni += dx;
+			nj += dy;
+			if (ni >=0 && ni < 19 && nj >=0 && nj < 19 && table[ni][nj] == value) {
+				count += 1;
+			}
+		}
+//		ni = i;
+//		nj = j;
+//		for (int k = 0; k < 4; k++) {
+//			ni -= dx;
+//			nj -= dy;
+//			if (ni >=0 && ni < 19 && nj >=0 && nj < 19 && table[ni][nj] == value) {
+//				count += 1;
+//			}
+//		}
+		
+		if (count == 5) {
+//			return true;
+			ni += dx;
+			nj += dy;
+			if (ni >=0 && ni < 19 && nj >=0 && nj < 19 && table[ni][nj] == value) {
+				return false;
+			} else {
+				return true; 
+			}
+		}
+		return false;
+	}
+
 }
 
