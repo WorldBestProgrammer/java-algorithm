@@ -7,10 +7,10 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		int N = Integer.parseInt(br.readLine());
-		int[] switches = new int[N];
+		int[] switches = new int[N+1];
 		
 		st = new StringTokenizer(br.readLine(), " ");
-		for (int i = 0; i < N; i++) {
+		for (int i = 1; i <= N; i++) {
 			switches[i] = Integer.parseInt(st.nextToken());
 		}
 		
@@ -22,8 +22,8 @@ public class Main {
 			controlSwitch(switches, sex, switchNumber);
 		}
 		
-		for (int i = 1; i <= switches.length; i++) {
-			System.out.print(switches[i-1] + " ");
+		for (int i = 1; i < switches.length; i++) {
+			System.out.print(switches[i] + " ");
 			if (i != 0 && i % 20 == 0) {
 				System.out.println();
 			}
@@ -42,27 +42,26 @@ public class Main {
 	}
 	
 	private static void controlSwitchMale(int[] switches, int switchNumber) {
-		for (int i = switchNumber; i <= switches.length; i++) {
+		for (int i = switchNumber; i < switches.length; i++) {
 			if (i % switchNumber == 0) {
-				switches[i - 1] = Math.abs(1 - switches[i - 1]);
+				switches[i] = Math.abs(1 - switches[i]);
 			}
 		}
 	}
 	
 	private static void controlSwitchFemale(int[] switches, int switchNumber) {
-		switchNumber -= 1;
 		switches[switchNumber] = Math.abs(1 - switches[switchNumber]);
 		for (int i = 1; i < switches.length; i++) {
 			int index1 = switchNumber - i;
 			int index2 = switchNumber + i;
-			if (!(index1 >= 0 && index2 < switches.length 
+			if (!(index1 > 0 && index2 < switches.length 
 					&& switches[index1] == switches[index2])) {
 				break;
 			}
-//			if (switches[index1] == switches[index2]) {
-				switches[index1] = Math.abs(1 - switches[index1]);
-				switches[index2] = Math.abs(1 - switches[index2]);
-//			}
+
+			switches[index1] = Math.abs(1 - switches[index1]);
+			switches[index2] = Math.abs(1 - switches[index2]);
+
 		}
 	}
 	
