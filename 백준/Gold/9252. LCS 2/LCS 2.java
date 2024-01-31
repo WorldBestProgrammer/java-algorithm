@@ -27,32 +27,32 @@ public class Main {
 				break;
 			}
 			
-//				if (dp[x-1][y] > dp[x][y-1]) {
-//					x -= 1;
-//				} else if (dp[x-1][y] < dp[x][y-1]) {
-//					y -= 1;
-//				} else if (dp[x-1][y] == dp[x][y-1] && sequence1[x-1] == sequence2[y-1]) {
-//					sb.append(sequence1[x-1]);
-//					x -= 1;
-//					y -= 1;
-//				} else {
-//					x -= 1;
-//				}
-			
-			if (dp[x][y] == dp[x-1][y]) {
-				x--;
-			} else if (dp[x][y] == dp[x][y-1]) {
-				y--;
-			} else {
-				sb.append(sequence1[x-1]);
-				x--;
-				y--;
+				if (dp[x-1][y] > dp[x][y-1]) {
+					x -= 1;
+				} else if (dp[x-1][y] < dp[x][y-1]) {
+					y -= 1;
+				} else if (dp[x-1][y] == dp[x][y-1] && sequence1[x-1] == sequence2[y-1]) {
+					sb.append(sequence1[x-1]);
+					x -= 1;
+					y -= 1;
+				} else {
+					x -= 1;
+				}
+//			
+//			if (dp[x][y] == dp[x-1][y]) {
+//				x--;
+//			} else if (dp[x][y] == dp[x][y-1]) {
+//				y--;
+//			} else {
+//				sb.append(sequence1[x-1]);
+//				x--;
+//				y--;
+//			}
 			}
-			}
-			
+		
 		System.out.println(lcs);
 		System.out.print(sb.reverse().toString());
-//		System.out.println(lcs);
+		
 //		bw.write(lcs + '0');
 //		bw.newLine();
 //		if (lcs > 0) {
