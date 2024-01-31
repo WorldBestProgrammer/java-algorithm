@@ -22,23 +22,21 @@ public class Main {
 //		display(dp);
 		StringBuilder sb = new StringBuilder();
 		
-		while (x>0 && y>0) {
-			if (x == 0 || y == 0) {
+		while (true) {
+			if (dp[x][y] == 0) {
 				break;
 			}
-			
-				if (dp[x-1][y] > dp[x][y-1]) {
-					x -= 1;
-				} else if (dp[x-1][y] < dp[x][y-1]) {
-					y -= 1;
-				} else if (dp[x-1][y] == dp[x][y-1] && sequence1[x-1] == sequence2[y-1]) {
+				if (sequence1[x-1] == sequence2[y-1]) {
 					sb.append(sequence1[x-1]);
 					x -= 1;
 					y -= 1;
-				} else {
+				} else if (dp[x-1][y] >= dp[x][y-1]) {
 					x -= 1;
-				}
-//			
+				} else if (dp[x-1][y] < dp[x][y-1]) {
+					y -= 1;
+				} 
+				
+//			dp[x][y] == dp[x-1][y]인데 sequence의 값이 같을 수도 있지 않은가?
 //			if (dp[x][y] == dp[x-1][y]) {
 //				x--;
 //			} else if (dp[x][y] == dp[x][y-1]) {
