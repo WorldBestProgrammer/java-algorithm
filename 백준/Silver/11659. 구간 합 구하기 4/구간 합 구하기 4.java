@@ -33,8 +33,9 @@ public class Main {
 			sb.append("\n");
 		}
 		
-		bw.write(sb.toString());
-		bw.close();
+		System.out.println(sb.toString());
+//		bw.write(sb.toString());
+//		bw.close();
 	}
 	
 }
