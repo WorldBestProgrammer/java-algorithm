@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Time;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -18,9 +19,10 @@ public class Main {
 			System.out.println(sb);
 			return;
 		}
+		
 		Deque<Integer> deque = new LinkedList<>();
 		for (int i = 1; i <= N; i++) {
-			deque.addLast(i);
+			deque.offer(i);
 		}
 		while (true) {
 			deque.poll();
@@ -28,8 +30,7 @@ public class Main {
 				sb.append(deque.poll());
 				break;
 			}
-			int n = deque.poll();
-			deque.addLast(n);
+			deque.addLast(deque.poll());
 		}
 		System.out.println(sb);
 	}
