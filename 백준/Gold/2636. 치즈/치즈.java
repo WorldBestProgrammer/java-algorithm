@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
@@ -27,21 +26,14 @@ public class Main {
 		}
 		
 		map[0][0] = -1;
-		visited = new boolean[N][M];
-//		bfs(new int[] {0, 0});
 		
 		int cheeseNumber = 0;
 		int count = 0;
 		int temp = 0;
 		point = new int[] {0, 0};
-		bfs(point);
 		while ((cheeseNumber = findCheeseNumber()) > 0) {
-//			for (int i= 0; i < N; i++) {
-//				System.out.println(Arrays.toString(map[i]));
-//			}
-//			System.out.println();
 			temp = cheeseNumber;
-			meltCheese();
+			visited = new boolean[N][M];
 			bfs(point);
 			count++;
 		}
@@ -75,19 +67,22 @@ public class Main {
 				int nx = x + dx[i];
 				int ny = y + dy[i];
 				
-				if (0<= nx && nx < N && 0<= ny && ny < M && map[nx][ny] == 0) {
-					map[nx][ny] = -1;
-					deque.add(new int[] {nx, ny});
+				if (0<= nx && nx < N && 0<= ny && ny < M && !visited[nx][ny]) {
+					if (map[nx][ny] == 0) {
+						deque.add(new int[] {nx, ny});
+					} else if (map[nx][ny] == 1) {
+						map[nx][ny] = 0;
+						}
+					visited[nx][ny] = true;
+					} 
 				}
 			}
 		}
-	}
+	
 	
 	private static void meltCheese() {
 		int[] dx = {-1, 0, 1, 0};
 		int[] dy = {0, -1, 0, 1};
-//		int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
-//		int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
@@ -108,13 +103,6 @@ public class Main {
 			}
 		}
 		
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < M; j++) {
-//				if (map[i][j] == 0) {
-//					point = new int[] {i, j};
-//				}
-//			}
-//		}
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (map[i][j] == -1) {
