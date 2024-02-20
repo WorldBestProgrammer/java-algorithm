@@ -33,25 +33,43 @@ public class Main {
 		count = 0;
 		visited = new boolean[N+1];
 		Deque<Integer> deque = new ArrayDeque<>();
-		out: while (true) {
-			for (int i = 1; i <= N; i++) {
-				if (visited[i] == true) {
-					continue;
-				}
-				if (indegree[i] == 0) {
-					sb.append(i).append(" ");
-					visited[i] = true;
-					count++;
-					if (count == N) {
-						break out; 
-					}
-					
-					for (int out : outdegree[i]) {
-						indegree[out]--;
-					}
+		for (int i = 1; i <= N; i++) {
+			if (indegree[i] == 0) {
+				deque.add(i);
+			}
+		}
+		
+		while(!deque.isEmpty()) {
+			
+			int cur = deque.poll();
+			sb.append(cur).append(" ");
+			for (int out : outdegree[cur]) {
+				indegree[out]--;
+				if(indegree[out] == 0) {
+					deque.offer(out);
 				}
 			}
 		}
+		
+//		out: while (true) {
+//			for (int i = 1; i <= N; i++) {
+//				if (visited[i] == true) {
+//					continue;
+//				}
+//				if (indegree[i] == 0) {
+//					sb.append(i).append(" ");
+//					visited[i] = true;
+//					count++;
+//					if (count == N) {
+//						break out; 
+//					}
+//					
+//					for (int out : outdegree[i]) {
+//						indegree[out]--;
+//					}
+//				}
+//			}
+//		}
 		System.out.println(sb);
 	}
 }
