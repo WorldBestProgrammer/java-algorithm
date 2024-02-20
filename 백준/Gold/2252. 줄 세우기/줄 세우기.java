@@ -9,16 +9,16 @@ import java.util.StringTokenizer;
 public class Main {
 	static StringBuilder sb = new StringBuilder();
 	static boolean[] visited;
+	static int count;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		
-		List<Integer>[] indegree = new List[N+1];
+		int[] indegree = new int[N+1];
 		List<Integer>[] outdegree = new List[N+1];
 		for (int i = 1; i <= N; i++) {
-			indegree[i] = new ArrayList<>();
 			outdegree[i] = new ArrayList<>();
 		}
 		
@@ -27,32 +27,30 @@ public class Main {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			
-			indegree[b].add(a);
+			indegree[b]++;
 			outdegree[a].add(b);
 		}
-		
+		count = 0;
 		visited = new boolean[N+1];
 		Deque<Integer> deque = new ArrayDeque<>();
-		out: while (deque.size() <= N) {
+		out: while (true) {
 			for (int i = 1; i <= N; i++) {
 				if (visited[i] == true) {
 					continue;
 				}
-				if (indegree[i].size() == 0) {
-					deque.add(i);
+				if (indegree[i] == 0) {
+					sb.append(i).append(" ");
 					visited[i] = true;
-					if (deque.size() == N) {
-						break out;
+					count++;
+					if (count == N) {
+						break out; 
 					}
 					
 					for (int out : outdegree[i]) {
-						indegree[out].remove(Integer.valueOf(i));
+						indegree[out]--;
 					}
 				}
 			}
-		}
-		while(!deque.isEmpty()) {
-			sb.append(deque.removeFirst()).append(" ");
 		}
 		System.out.println(sb);
 	}
