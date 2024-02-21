@@ -91,13 +91,9 @@ public class Main {
 				while (true) {
 					nx += dxs[number][i][j];
 					ny += dys[number][i][j];
-					if (0<= nx && nx < N && 0 <= ny && ny < M) {
+					if (0<= nx && nx < N && 0 <= ny && ny < M && map[nx][ny] != 6) {
 						if (map[nx][ny] <= 0) {
 							map[nx][ny] -= 1;
-						} else if (map[nx][ny] < 6) {
-							continue;
-						} else {
-							break;
 						}
 					} else {
 						break;
@@ -112,13 +108,9 @@ public class Main {
 				while (true) {
 					nx += dxs[number][i][j];
 					ny += dys[number][i][j];
-					if (0<= nx && nx < N && 0 <= ny && ny < M) {
+					if (0<= nx && nx < N && 0 <= ny && ny < M && map[nx][ny] != 6) {
 						if (map[nx][ny] < 0) {
 							map[nx][ny] += 1;
-						} else if (map[nx][ny] < 6) {
-							continue;
-						} else {
-							break;
 						}
 					} else {
 						break;
