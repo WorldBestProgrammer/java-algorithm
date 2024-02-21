@@ -48,10 +48,7 @@ public class Main {
 				}
 			}
 			if (vowel >= 1 && consonant >= 2) {
-				for (int i = 0; i < L; i++) {
-					sb.append(chars[i]);
-				}
-				sb.append("\n");
+				sb.append(chars).append("\n");				
 			}
 			
 			return;
