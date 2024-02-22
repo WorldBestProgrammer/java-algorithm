@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -40,7 +39,7 @@ public class Main {
 
 		minPopulation = Integer.MAX_VALUE;
 		comb = new boolean[N+1];
-		dfs(1);
+		dfs(2);
 		if (minPopulation == Integer.MAX_VALUE) {
 			System.out.println(-1);
 		} else {
@@ -70,14 +69,9 @@ public class Main {
 			visited[trueStart] = true;
 			truePopulation = 0;
 			count = 0;
-//			System.out.println("-------------------");
-//			System.out.println(Arrays.toString(comb));
-//			System.out.println("trueStart" + trueStart);
 			flag = false;
 			isValid(trueStart, true, 1, trueTarget);
 			boolean flag1 = flag;
-//			System.out.println(flag1);
-			
 			visited = new boolean[N+1];
 			visited[falseStart] = true;
 			falsePopulation = 0;
@@ -85,10 +79,7 @@ public class Main {
 			flag = false;
 			isValid(falseStart, false, 1, falseTarget);
 			boolean flag2 = flag;
-//			System.out.println(flag2);
 			if (flag1 && flag2) {
-//				System.out.println(Arrays.toString(comb));
-//				System.out.println(truePopulation + " " + falsePopulation);
 				minPopulation = Math.min(minPopulation, Math.abs(truePopulation - falsePopulation));
 			}
 			return;
@@ -117,11 +108,10 @@ public class Main {
 				
 				visited[next] = true;
 				isValid(next, std, depth + 1, target);
-//				if (flag) {
-//					return;
-//				}
+				if (flag) {
+					return;
+				}
 			}
 		}
-//		flag = false;
 	}
 }
