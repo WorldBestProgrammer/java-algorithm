@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -10,6 +9,7 @@ public class Main {
 	static int N;
 	static int[][] innings;
 	static int maxScore;
+	static int[] nps;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -27,14 +27,23 @@ public class Main {
 		visited = new boolean[10];
 		order[4] = 1;
 		maxScore = Integer.MIN_VALUE;
-		dfs(1);
+		nps = new int[] {2, 3, 4, 5, 6, 7, 8, 9};
+		do {
+//			for (int i = 0; i < 3; i++) {
+//				order[i+1] = nps[i];
+//			}
+//			for (int i = 3; i < 8; i++) {
+//				order[i+2] = nps[i];
+//			}
+			game();
+		} while(np());
+//		dfs(1);
 		
 		System.out.println(maxScore);
 	}
 
 	private static void dfs(int depth) {
 		if (depth == 4) {
-//			order[4] = 1;
 			dfs(depth+1);
 			return;
 		}
@@ -52,6 +61,32 @@ public class Main {
 			}
 		}
 	}
+	
+	private static boolean np() {
+		int i = 7;
+		while (i > 0 && nps[i-1] >= nps[i]) {
+			--i;
+		}
+		if (i == 0) {
+			return false;
+		}
+		int j = 7;
+		while (nps[i-1] >= nps[j]) {
+			--j;
+		}
+		
+		int temp = nps[i-1];
+		nps[i-1] = nps[j];
+		nps[j] = temp;
+		
+		for (int k = 0; k < (7 - i + 1) / 2 ; k++) {
+			temp = nps[i+k];
+			nps[i+k] = nps[7 - k];
+			nps[7 - k] = temp;
+		}
+//		Arrays.sort(nps, i, 8);
+		return true;
+	}
 
 	private static void game() {
 		int index = 0;
@@ -61,7 +96,17 @@ public class Main {
 			base = 0;
 			int outcount = 0;
 			while(outcount < 3) {
-				int playerNumber = order[(index % 9) + 1];
+				int curIndex = index % 9;
+//				int playerNumber = order[(index % 9) + 1];
+				int playerNumber = 0;
+				if (curIndex <= 2) {
+					playerNumber = nps[curIndex];
+				} else if (curIndex == 3) {
+					playerNumber = 1;
+				} else {
+					playerNumber = nps[curIndex-1];
+				}
+				
 				int heatNumber = innings[i][playerNumber];
 				switch (heatNumber) {
 				case 0:
