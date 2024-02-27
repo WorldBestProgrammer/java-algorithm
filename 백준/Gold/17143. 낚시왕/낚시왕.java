@@ -3,9 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -74,7 +72,6 @@ public class Main {
                     size = map[i][fishingKingLoc][2];
                     totalSize += size;
                     map[i][fishingKingLoc] = null;
-//                    sharks.remove(new Point(i, fishingKingLoc));
                     break;
                 }
             }
@@ -98,29 +95,27 @@ public class Main {
                 nr = r;
                 nc = c;
                 int time = 0;
-                if (speed > 0) {
-                    /**
-                     * 한칸을 미리 움직여 주는 이유는 모든 경우에 대해 주기를 이용하기 위해서이다.
-                     * 다시 말해 한칸을 미리 움직여 주지 않으면 특정 경우에 대해서는 주기를 이용할 수 없다.
-                     * 예를 들어, 상어가 제일 윗칸에 있는데 아래를 바라보고 있다고 하자.
-                     * 이런 상황에서는 상어가 다시 제자리에 돌아왔을 때는 무조건 위를 바라보게 된다.
-                     * 즉, 방향이 달라지게 되어 별도의 예외처리가 필요해진다.
-                     * 하지만 한 칸을 움직여주면 이러한 예외상황을 모두 전처리할 수 있기 때문에 상황이 간단해진다.
-                     */
-//                        movingOneStep(dr, dc);
-                    int newSpeed = 0;
-                    if (direction >= 3) { // 좌우 방향이라면
-                        newSpeed = speed % ((C - 1) * 2); // (C-1) * 2가 하나의 주기가 된다.
-                    } else { // 위아래 방향이라면
-                        newSpeed = speed % ((R - 1) * 2); // 마찬가지로 (R-1) * 2가 하나의 주기가 된다.
-                    }
-                    /**
-                     * 주기를 모두 고려하고 남은 나머지에 대해서는 직접 움직임 시뮬레이션을 돌려준다.
-                     */
-                    while (time < newSpeed) {
-                        time++;
-                        movingOneStep(dr, dc);
-                    }
+                
+                /**
+                 * 한칸을 미리 움직여 주는 이유는 모든 경우에 대해 주기를 이용하기 위해서이다.
+                 * 다시 말해 한칸을 미리 움직여 주지 않으면 특정 경우에 대해서는 주기를 이용할 수 없다.
+                 * 예를 들어, 상어가 제일 윗칸에 있는데 아래를 바라보고 있다고 하자.
+                 * 이런 상황에서는 상어가 다시 제자리에 돌아왔을 때는 무조건 위를 바라보게 된다.
+                 * 즉, 방향이 달라지게 되어 별도의 예외처리가 필요해진다.
+                 * 하지만 한 칸을 움직여주면 이러한 예외상황을 모두 전처리할 수 있기 때문에 상황이 간단해진다.
+                 */
+                int newSpeed = 0;
+                if (direction >= 3) { // 좌우 방향이라면
+                    newSpeed = speed % ((C - 1) * 2); // (C-1) * 2가 하나의 주기가 된다.
+                } else { // 위아래 방향이라면
+                    newSpeed = speed % ((R - 1) * 2); // 마찬가지로 (R-1) * 2가 하나의 주기가 된다.
+                }
+                /**
+                 * 주기를 모두 고려하고 남은 나머지에 대해서는 직접 움직임 시뮬레이션을 돌려준다.
+                 */
+                while (time < newSpeed) {
+                    time++;
+                    movingOneStep(dr, dc);
                 }
                 
                 if (newMap[nr][nc] != null) { // 이미 그 자리에 상어가 있다면 크기에 따라 갱신한다.
@@ -133,7 +128,7 @@ public class Main {
                     newSharks.add(new Point(nr, nc));
                 }
                 
-               }
+              }
             map = newMap;
             sharks = newSharks;
         }
