@@ -89,35 +89,15 @@ public class Main {
                 nr = r + dr[newDir];
                 nc = c + dc[newDir];
                 temp.getLast().dir = newDir;
-                if (!(1 <= nr && nr <= N && 1 <= nc && nc <= N) || map[nr][nc] == 2){
+            }
+
+            if (!(1 <= nr && nr <= N && 1 <= nc && nc <= N) || map[nr][nc] == 2){
                     while (!temp.isEmpty()) {
                         Horse hor = temp.pollLast();
                         horse[r][c].addFirst(hor);
                     }
                     continue;
                 }
-                if (map[nr][nc] == 0) {
-                    while (!temp.isEmpty()) {
-                        Horse hor = temp.pollLast();
-                        horse[nr][nc].addFirst(hor);
-                        loc[hor.id] = new int[]{nr, nc};
-                    }
-                    if (horse[nr][nc].size() >= 4) {
-                        return true;
-                    }
-                } else {
-                    while (!temp.isEmpty()) {
-                        Horse hor = temp.pollFirst();
-                        horse[nr][nc].addFirst(hor);
-                        loc[hor.id] = new int[]{nr, nc};
-                    }
-                    if (horse[nr][nc].size() >= 4) {
-                        return true;
-                    }
-                }
-            }
-
-            // 흰색
             else if (map[nr][nc] == 0) {
                 while (!temp.isEmpty()) {
                     Horse hor = temp.pollLast();
@@ -127,9 +107,7 @@ public class Main {
                 if (horse[nr][nc].size() >= 4) {
                     return true;
                 }
-            }
-            // 빨간색
-            else {
+            } else {
                 while (!temp.isEmpty()) {
                     Horse hor = temp.pollFirst();
                     horse[nr][nc].addFirst(hor);
@@ -140,6 +118,7 @@ public class Main {
                 }
             }
         }
+
         return false;
     }
 
